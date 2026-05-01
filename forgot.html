@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Forgot Password</title>
+
+<style>
+body{
+font-family: Arial;
+background:#f6f6f6;
+}
+
+.container{
+width:360px;
+margin:100px auto;
+background:white;
+padding:30px;
+text-align:center;
+border-radius:10px;
+}
+input,button{
+width:100%;
+padding:12px;
+margin:10px 0;
+}
+button{
+background:#ff6b00;
+color:white;
+border:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h2>Forgot Password</h2>
+
+<input type="email" id="email" placeholder="Enter email">
+
+<button onclick="sendOTP()">Send OTP</button>
+</div>
+
+<script>
+function sendOTP(){
+const email = document.getElementById("email").value;
+
+if(!email){
+alert("Enter email");
+return;
+}
+
+fetch("http://localhost:4000/forgot-password", {
+method:"POST",
+headers:{ "Content-Type":"application/json" },
+body: JSON.stringify({ email })
+})
+.then(res=>res.json())
+.then(data=>{
+alert(data.message);
+
+if(data.message==="OTP sent"){
+alert("Check terminal for OTP 👀");
+window.location.href="reset.html";
+}
+});
+}
+</script>
+
+</body>
+</html>

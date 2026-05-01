@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Kingsplatter Checkout</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #f5f7fb;
+  margin: 0;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.box {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  width: 350px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+textarea { height: 80px; }
+
+.btn {
+  width: 100%;
+  padding: 14px;
+  background: #22c55e;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.hidden { display: none; }
+
+.user-details {
+  background: #f0f4f8;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+
+#map {
+  height: 200px;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- STEP 1 -->
+<div class="box" id="deliveryPage">
+  <h2>Delivery Details</h2>
+  <input type="text" id="name" placeholder="Full Name" />
+  <input type="text" id="phone" placeholder="Phone Number" />
+  <textarea id="address" placeholder="Address"></textarea>
+
+  <button class="btn" onclick="goToOrder()">Place Order</button>
+</div>
+
+<!-- STEP 2 -->
+<div class="box hidden" id="orderPage">
+  <h2>Your Order</h2>
+
+  <div id="orderItems"></div>
+
+  <div class="item">
+    <span>Items Total</span>
+    <span id="itemsTotal"></span>
+  </div>
+
+  <div class="item">
+    <span>Delivery</span>
+    <span>FREE</span>
+  </div>
+
+  <div class="item">
+    <span>Distance</span>
+    <span id="distance"></span>
+  </div>
+
+  <div id="map"></div>
+
+  <!-- PAYMENT -->
+  <h3>Payment Method</h3>
+
+  <label>
+    <input type="radio" name="payment" value="COD" checked> Cash on Delivery
+  </label><br>
+
+  <label>
+    <input type="radio" name="payment" value="UPI"> UPI Payment
+  </label>
+
+  <!-- QR + PAY BUTTON -->
+  <div id="upiBox" class="hidden" style="text-align:center;">
+    <p>Scan & Pay</p>
+    <img src="images/upi-qr.png.png" width="150">
+    <p><b>UPI ID: kingsplatter@upi</b></p>
+
+    <button class="btn" onclick="markAsPaid()">I Have Paid</button>
+  </div>
+
+  <div class="total">
+    <strong>Total</strong>
+    <strong id="finalTotal"></strong>
+  </div>
+
+  <div class="user-details" id="userDetails"></div>
+
+  <button class="btn" onclick="goHome()">Your Bill</button>
+</div>
+
+</div>
+
+<!-- GOOGLE MAP -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANLRc77leJMXn2knrHz_TYeBl9kb0AoXA"></script>
+
+<script>
+
+// HOTEL LOCATION
+const hotelLocation = {
+  lat: 22.5535,
+  lng: 72.9336
+};
+
+let userLocation = { lat: null, lng: null };
+let isPaid = false;
+
+// DISTANCE FUNCTION
+function calculateDistance(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI/180;
+  const dLon = (lon2 - lon1) * Math.PI/180;
+
+  const a =
+    Math.sin(dLat/2)**2 +
+    Math.cos(lat1*Math.PI/180) *
+    Math.cos(lat2*Math.PI/180) *
+    Math.sin(dLon/2)**2;
+
+  return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+}
+
+// MAP + LOCATION
+function getLocation() {
+  navigator.geolocation.getCurrentPosition((pos) => {
+
+    userLocation.lat = pos.coords.latitude;
+    userLocation.lng = pos.coords.longitude;
+
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 13,
+      center: userLocation
+    });
+
+    new google.maps.Marker({ position: userLocation, map, title: "Customer" });
+    new google.maps.Marker({ position: hotelLocation, map, title: "Hotel" });
+
+    const distance = calculateDistance(
+      userLocation.lat,
+      userLocation.lng,
+      hotelLocation.lat,
+      hotelLocation.lng
+    );
+
+    document.getElementById("distance").textContent =
+      distance.toFixed(2) + " km";
+
+  });
+}
+
+// STEP 1 → STEP 2
+function goToOrder() {
+
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const address = document.getElementById("address").value.trim();
+
+  if (!name || !phone || !address) {
+    alert("Fill all fields ❌");
+    return;
+  }
+
+  document.getElementById("deliveryPage").classList.add("hidden");
+  document.getElementById("orderPage").classList.remove("hidden");
+
+  document.getElementById("userDetails").innerHTML = `
+    <b>Delivery To:</b><br>
+    ${name}<br>${phone}<br>${address}<br><br>
+    <b>Restaurant:</b><br>
+    Near D-Mart, Sigma Complex, Vallabh Vidyanagar, Anand
+  `;
+
+  getLocation();
+
+  const items = JSON.parse(localStorage.getItem("cart")) || [];
+  const orderItemsDiv = document.getElementById("orderItems");
+
+  let total = 0;
+  orderItemsDiv.innerHTML = "";
+
+  items.forEach(item => {
+    total += item.price;
+
+    orderItemsDiv.innerHTML += `
+      <div class="item">
+        <span>${item.name}</span>
+        <span>$${item.price}</span>
+      </div>
+    `;
+  });
+
+  document.getElementById("itemsTotal").textContent = "$" + total.toFixed(2);
+  document.getElementById("finalTotal").textContent = "$" + total.toFixed(2);
+}
+
+// PAYMENT TOGGLE
+document.addEventListener("change", (e) => {
+  if (e.target.name === "payment") {
+    const upiBox = document.getElementById("upiBox");
+
+    if (e.target.value === "UPI") {
+      upiBox.classList.remove("hidden");
+      isPaid = false;
+    } else {
+      upiBox.classList.add("hidden");
+    }
+  }
+});
+
+// MARK PAYMENT DONE
+function markAsPaid() {
+  isPaid = true;
+  alert("Payment completed ✅");
+  window.location.href = "bill.html";
+}
+
+// FINAL ORDER
+function goHome() {
+
+  const items = JSON.parse(localStorage.getItem("cart")) || [];
+  const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+
+  if (items.length === 0) {
+    alert("Cart empty ❌");
+    return;
+  }
+
+  if (paymentMethod === "UPI" && !isPaid) {
+    alert("Please complete payment first ❌");
+    return;
+  }
+
+  const totalAmount = items.reduce((sum, item) => sum + item.price, 0);
+
+  fetch("http://localhost:4000/orders", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      orderId: "ORD" + Date.now(),
+      items,
+      totalAmount,
+      paymentMethod,
+      location: userLocation
+    })
+  })
+  .then(res => res.json())
+  .then(() => {
+    alert("Order placed 🎉");
+    localStorage.removeItem("cart");
+   window.location.href = "bill.html";
+  })
+  .catch(() => {
+    alert("Saved locally (server issue)");
+    localStorage.removeItem("cart");
+window.location.href = "bill.html";
+  });
+}
+
+</script>
+
+</body>
+</html>

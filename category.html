@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Food Categories | King's Platter</title>
+
+<style>
+
+body{
+font-family: Arial, Helvetica, sans-serif;
+margin:0;
+background:#f7f7f7;
+}
+
+header{
+background:#222;
+color:white;
+text-align:center;
+padding:20px;
+}
+
+.container{
+width:90%;
+margin:auto;
+padding:40px 0;
+}
+
+.category-title{
+margin-top:40px;
+margin-bottom:20px;
+color:#333;
+border-left:6px solid #ff6b00;
+padding-left:10px;
+}
+
+.food-list{
+display:flex;
+flex-wrap:wrap;
+gap:25px;
+}
+
+.card{
+background:white;
+width:250px;
+padding:20px;
+text-align:center;
+border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+}
+
+.card img{
+width:180px;
+height:180px;
+object-fit:contain;
+}
+
+.price{
+color:#ff6b00;
+font-weight:bold;
+font-size:18px;
+}
+
+button{
+padding:8px 18px;
+border:none;
+background:#ff6b00;
+color:white;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#ff4500;
+}
+
+footer{
+background:#222;
+color:white;
+text-align:center;
+padding:15px;
+margin-top:40px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>King's Platter - Food Categories</h1>
+</header>
+
+<div class="container">
+
+<!-- Pizza Category -->
+
+<h2 class="category-title">Pizza</h2>
+
+<div class="food-list">
+
+<div class="card">
+<img src="images/pizza.png">
+<h3>Veggie Pizza</h3>
+<p>Loaded with fresh vegetables and cheese.</p>
+<p class="price">$7.99</p>
+<button>Order Now</button>
+</div>
+
+</div>
+
+
+<!-- Burger Category -->
+
+<h2 class="category-title">Burger</h2>
+
+<div class="food-list">
+
+<div class="card">
+<img src="images/burger.png">
+<h3>Double Beef Burger</h3>
+<p>Double beef patty with cheese and sauce.</p>
+<p class="price">$9.99</p>
+<button>Order Now</button>
+</div>
+
+</div>
+
+
+<!-- Chicken Category -->
+
+<h2 class="category-title">Chicken</h2>
+
+<div class="food-list">
+
+<div class="card">
+<img src="images/fried-chicken.png">
+<h3>Fried Chicken</h3>
+<p>Crispy fried chicken with special spices.</p>
+<p class="price">$6.99</p>
+<button>Order Now</button>
+</div>
+
+</div>
+
+
+<!-- Rolls Category -->
+
+<h2 class="category-title">Rolls</h2>
+
+<div class="food-list">
+
+<div class="card">
+<img src="images/chicken-roll.png">
+<h3>Chicken Roll</h3>
+<p>Soft roll filled with grilled chicken.</p>
+<p class="price">$5.49</p>
+<button>Order Now</button>
+</div>
+
+<div class="card">
+<img src="images/spring-roll.png">
+<h3>Spring Roll</h3>
+<p>Crunchy rolls filled with vegetables.</p>
+<p class="price">$3.99</p>
+<button>Order Now</button>
+</div>
+
+</div>
+
+
+<!-- Sandwich Category -->
+
+<h2 class="category-title">Sandwich</h2>
+
+<div class="food-list">
+
+<div class="card">
+<img src="images/sandwich.png">
+<h3>Sub Sandwich</h3>
+<p>Fresh sandwich with grilled fillings.</p>
+<p class="price">$4.99</p>
+<button>Order Now</button>
+</div>
+
+</div>
+
+
+<!-- Lasagna Category -->
+
+<h2 class="category-title">Lasagna</h2>
+
+<div class="food-list">
+
+<div class="card">
+<img src="images/lasagna.png">
+<h3>Chicken Lasagna</h3>
+<p>Italian style lasagna with chicken.</p>
+<p class="price">$9.49</p>
+<button>Order Now</button>
+</div>
+
+</div>
+
+
+<!-- Spaghetti Category -->
+
+<h2 class="category-title">Spaghetti</h2>
+
+<div class="food-list">
+
+<div class="card">
+<img src="images/spaghetti.png">
+<h3>Italian Spaghetti</h3>
+<p>Classic spaghetti with rich tomato sauce.</p>
+<p class="price">$7.99</p>
+<button>Order Now</button>
+</div>
+
+</div>
+
+</div>
+
+<footer>
+<p>© 2026 King's Platter | Royal Taste Delivered</p>
+</footer>
+
+</body>
+</html>

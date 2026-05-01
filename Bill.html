@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Kings Platter - Bill</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #f5f7fb;
+  margin: 0;
+}
+
+.container {
+  max-width: 400px;
+  margin: 40px auto;
+}
+
+.box {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 15px 0;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.green { color: green; }
+
+.small {
+  font-size: 13px;
+  color: gray;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+  <div class="box">
+
+    <h2>🧾 Your Bill</h2>
+    <p class="small">King's Platter</p>
+
+    <!-- ITEMS -->
+    <div id="billItems"></div>
+
+    <hr>
+
+    <!-- CHARGES -->
+    <div class="item">
+      <span>Item Total</span>
+      <span id="itemTotal"></span>
+    </div>
+
+    <div class="item">
+      <span>Delivery Fee</span>
+      <span class="green" id="deliveryFee"></span>
+    </div>
+
+    <div class="item">
+      <span>Platform Fee</span>
+      <span id="platformFee"></span>
+    </div>
+
+    <div class="item">
+      <span>No GST </span>
+      <span id="gst"></span>
+    </div>
+
+    <hr>
+
+    <div class="total">
+      <span>you Paid</span>
+      <span id="finalTotal"></span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+
+// GET CART DATA
+const items = JSON.parse(localStorage.getItem("cart")) || [];
+
+const billItems = document.getElementById("billItems");
+
+let itemTotal = 0;
+
+// SHOW ITEMS
+items.forEach(item => {
+  itemTotal += item.price;
+
+  billItems.innerHTML += `
+    <div class="item">
+      <span>${item.name}</span>
+      <span>$${item.price}</span>
+    </div>
+  `;
+});
+
+// CHARGES
+const deliveryFee = 0; // FREE
+const platformFee = 0; // like Swiggy
+const gst = itemTotal * 0;
+
+// FINAL
+const finalTotal = itemTotal + deliveryFee + platformFee + gst;
+
+// DISPLAY
+document.getElementById("itemTotal").textContent = "$" + itemTotal.toFixed(2);
+document.getElementById("deliveryFee").textContent = "FREE";
+document.getElementById("platformFee").textContent = "$" + platformFee.toFixed(2);
+document.getElementById("gst").textContent = "$" + gst.toFixed(2);
+document.getElementById("finalTotal").textContent = "$" + finalTotal.toFixed(2);
+
+</script>
+
+</body>
+</html>

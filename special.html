@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Special Food | King's Platter</title>
+
+<style>
+
+body{
+font-family: Arial, Helvetica, sans-serif;
+margin:0;
+background:#f8f8f8;
+}
+
+header{
+background:#222;
+padding:20px;
+text-align:center;
+}
+
+header h1{
+color:white;
+margin:0;
+}
+
+.container{
+width:90%;
+margin:auto;
+padding:40px 0;
+}
+
+.title{
+text-align:center;
+margin-bottom:40px;
+}
+
+.food-list{
+display:flex;
+justify-content:center;
+gap:30px;
+flex-wrap:wrap;
+}
+
+.card{
+background:white;
+width:300px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+text-align:center;
+padding:20px;
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-10px);
+}
+
+.card img{
+width:200px;
+height:200px;
+object-fit:contain;
+}
+
+.price{
+font-size:20px;
+color:#ff6b00;
+font-weight:bold;
+}
+
+button{
+margin-top:10px;
+padding:10px 20px;
+border:none;
+background:#ff6b00;
+color:white;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#ff4500;
+}
+
+footer{
+background:#222;
+color:white;
+text-align:center;
+padding:15px;
+margin-top:40px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>King's Platter - Special Food</h1>
+</header>
+
+<div class="container">
+
+<div class="title">
+<h2>Today's Special</h2>
+<p>Enjoy our chef's special delicious meals</p>
+</div>
+
+<div class="food-list">
+
+<div class="card">
+<img src="images/burger.png" alt="Double Beef Burger">
+<h3>Double Beef Burger</h3>
+<p>Juicy double beef patty with cheese, lettuce and special sauce.</p>
+<p class="price">$10.99</p>
+<button>Order Now</button>
+</div>
+
+<div class="card">
+<img src="images/spring-roll.png" alt="Chicken Roll">
+<h3>Chicken Roll</h3>
+<p>Soft roll filled with grilled chicken and fresh vegetables.</p>
+<p class="price">$6.99</p>
+<button>Order Now</button>
+</div>
+
+<div class="card">
+<img src="images/spaghetti.png" alt="Italian Spaghetti">
+<h3>Italian Spaghetti</h3>
+<p>Authentic Italian pasta with rich tomato sauce and herbs.</p>
+<p class="price">$8.99</p>
+<button>Order Now</button>
+</div>
+
+</div>
+
+</div>
+
+<footer>
+<p>© 2026 King's Platter | Royal Taste Delivered</p>
+</footer>
+
+</body>
+</html>
